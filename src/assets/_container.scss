@@ -1,0 +1,12 @@
+.container {
+  padding: 0 0.75rem;
+  @media screen and (min-width: 768px) {
+    padding: 0 2rem;
+  }
+  @media screen and (min-width: 1200px) {
+    padding: 0 3rem;
+  }
+  &._mw-u {
+    max-width: unset;
+  }
+}
