@@ -4,11 +4,13 @@
     КНИГА КОНТАКТОВ
   </HeaderComponent>
 
-  <div class="home__box container">
+  <div class="home__box">
 
-    <FilterType />
-
-    <BtnAddContact/>
+    <div class="home__box-wrapper container">
+      <FilterType />
+  
+      <BtnAddContact/>
+    </div>
 
   </div>
 </template>
@@ -58,12 +60,16 @@ export default defineComponent({
     &__box {
       height: 3rem;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
       border: 1px solid #EAF2FD;
       background: #F9FCFF;
+
+      &-wrapper {
+        height: 100%;
+        
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
     }
   }
 </style>

@@ -4,7 +4,7 @@
     <IconPlus class="btn-add__icon" />
 
     <span class="btn-add__name">
-      Добавить 
+      Добавить <span>контакт</span>
     </span>
   </button>
 
@@ -26,7 +26,8 @@ export default defineComponent({
 <style lang="scss" scoped>
   .btn-add {
     height: 2rem;
-    width: 7.3125rem;
+    min-width: 7.3125rem;
+    width: auto;
 
 
     display: flex;
@@ -61,6 +62,14 @@ export default defineComponent({
       text-transform: uppercase;
 
       transition: var(--duration);
+
+      span {
+        display: none;
+
+        @media screen and (min-width: 576px) {
+          display: inline-block;
+        }
+      }
     }
 
     &:hover {

@@ -4,7 +4,13 @@
     padding: 0 2rem;
   }
   @media screen and (min-width: 1200px) {
+    max-width: 61.875rem;
+
     padding: 0 3rem;
+
+    box-sizing: content-box;
+
+    margin: auto;
   }
   &._mw-u {
     max-width: unset;

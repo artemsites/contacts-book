@@ -106,6 +106,10 @@ export default defineComponent({
 
     position: relative;
 
+    @media screen and (min-width: 576px) {
+      max-width: 14.6875rem;
+    }
+
     &:hover {
       border-color: var(--c-blue);
     }
