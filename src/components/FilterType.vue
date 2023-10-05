@@ -37,7 +37,7 @@ import IconTriangle from "../components/icons/IconTriangle.vue";
 import IconV from "../components/icons/IconV.vue";
 
 import { mapWritableState } from 'pinia'
-import { useFilter } from '../stores/filter'
+import { useFilterStore } from '../stores/filter'
 
 import { onClickOutside } from '@vueuse/core'
 
@@ -74,7 +74,7 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapWritableState(useFilter, ['filterList']),
+    ...mapWritableState(useFilterStore, ['filterList']),
 
     filterCurrentName() {
       return this.filterList.find(fI=>fI.active===true).name
