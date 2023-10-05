@@ -25,6 +25,7 @@
     font-size: 0.875rem;
     background: var(--c-dark);
     color: var(--c-light);
+    font-weight: 700;
 
     @media screen and (min-width: 992px) {
       height: 3rem;
