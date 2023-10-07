@@ -6,7 +6,7 @@
       aria-label="Открыть фильтр контактов"
       @click="toggleFilterOpened">
 
-      <div class="filter__current">{{ filterCurrentName }}</div>
+      <div class="filter__current" :class="{ '_not-bold': notBold }">{{ filterCurrentName }}</div>
       <IconTriangle class="filter__icon-t"/>
 
     </button>
@@ -21,7 +21,8 @@
         @click="selectFilter(fItem.id)"
       >
 
-        <span class="filter__item-name">{{ fItem.name }}</span>
+        <span class="filter__item-name" :class="{ '_not-bold': notBold }">{{ fItem.name }}</span>
+
         <IconV v-if="fItem.active" class="filter__icon-v"/>
 
       </button>
@@ -47,6 +48,13 @@ export default defineComponent({
   components: {
     IconTriangle,
     IconV
+  },
+
+  props: {
+    notBold: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {
@@ -186,6 +194,7 @@ export default defineComponent({
 
       &-name {
         width: 100%;
+        color: var(--c-gray);
       }
 
       &:hover {
@@ -195,6 +204,10 @@ export default defineComponent({
       &._active {
         font-weight: 700;
       }
+    }
+
+    ._not-bold {
+      font-weight: 400;
     }
   }
 </style>
