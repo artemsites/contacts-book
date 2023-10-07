@@ -5,33 +5,58 @@
 
     <div class="contact-card__box">
 
-      <label class="contact-card__item">
-        <div class="contact-card__item-name">Имя</div>
-        <input type="text" class="contact-card__item-input" value="Двери Вадим">
-      </label>
 
-      <label class="contact-card__item">
-        <div class="contact-card__item-name">Телефон</div>
-        <input type="tel" class="contact-card__item-input" value="+7(987)654-78-11">
-      </label>
 
-      <label class="contact-card__item">
-        <div class="contact-card__item-name">E-mail</div>
-        <input type="email" class="contact-card__item-input" value="nelfeelingood2@gmail.com">
-      </label>
+      <ContactInput
+        label="Имя"
+        error="short"
+        type="text"
+        value="Двери Вадим"
+        placeholder="Например “Андрей...”"
+        class="contact-card__item" />
 
-      <label class="contact-card__item">
-        <div class="contact-card__item-name">Категория</div>
 
-        <FilterType notBold />
 
-      </label>
+      <ContactInput
+        label="Телефон"
+        type="tel"
+        placeholder="+7(___)___-__-__"
+        class="contact-card__item" />
 
-      <label class="contact-card__item">
-        <div class="contact-card__item-name">Создан</div>
 
-        <input type="text" class="contact-card__item-input _no-border" value="23.09.23" readonly>
-      </label>
+
+      <ContactInput
+        label="E-mail"
+        type="email"
+        placeholder="Например «pochta@domain.ru»..."
+        value="nelfeelingood2@gmail.com"
+        class="contact-card__item" />
+
+
+        <!--  error="empty" -->
+      <ContactInput
+        label="Категория"
+        placeholder="Не выбрано"
+        value=""
+        class="contact-card__item">
+
+        <FilterType class="contact-card__category" notBold noBorder />
+
+      </ContactInput>
+
+
+
+
+      <ContactInput
+        label="Создан"
+        type="text"
+        readonly
+        noBorder
+        placeholder="Например «pochta@domain.ru»..."
+        value="23.09.23"
+        class="contact-card__item" />
+
+
 
     </div>
 
@@ -54,6 +79,7 @@
 import { defineComponent } from 'vue';
 
 import FilterType from "../components/FilterType.vue";
+import ContactInput from "../components/ContactInput.vue";
 import IconSave from "../components/icons/IconSave.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
 
@@ -64,6 +90,7 @@ export default defineComponent({
     FilterType,
     IconSave,
     IconTrash,
+    ContactInput,
 
   }
 })
@@ -97,42 +124,11 @@ export default defineComponent({
   }
 
   &__item {
-    display: flex;
-    align-items: center;
+  }
 
-    &-name {
-      width: 4.5rem;
-
-      flex-shrink: 0;
-
-      color: var(--c-gray);
-      font-size: 0.75rem;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 120%;
-
-      margin-right: 0.75rem;
-    }
-
-    &-input {
-      width: 100%;
-      height: 2.5rem;
-
-      padding: 0.5rem;
-      border-radius: 0.25rem;
-      border: 1px solid #DDD;
-      background: #FFF;
-
-      color: var(--c-gray);
-      font-size: 0.75rem;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 160%;
-
-      &._no-border {
-        border: none;
-      }
-    }
+  &__category {
+    height: 2.5rem;
+    max-width: unset;
   }
 
   &__btns {

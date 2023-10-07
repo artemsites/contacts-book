@@ -1,0 +1,153 @@
+<template>
+  <label class="input">
+    <div class="input__name">{{ label }}</div>
+
+    <div class="input__wrapper" :class="{'_error': error, '_no-border': noBorder}">
+    
+      <slot>
+        <input class="input__input" :class="{'_error': error}" :name="$attrs.name" :type="$attrs.type" :placeholder="$attrs.placeholder" :value="$attrs.value" :readonly="$attrs.readonly">
+      </slot>
+    
+      <IconAttention class="input__error-icon" v-if="error" />
+
+      <div class="input__error">{{ errors[error] }}</div>
+    </div>
+  </label>
+</template>
+
+<script> 
+  import { defineComponent } from 'vue'; 
+
+  import IconAttention from "./icons/IconAttention.vue";
+
+  export default defineComponent({
+    name: "ContantInput",
+
+    components: {
+      IconAttention,
+    },
+
+    data() { 
+      return { 
+        errors: { 
+          short: 'Слишком короткое имя', 
+          empty: 'Поле не можеть быть пустым', 
+          email: 'Некорректный e-mail', 
+        } 
+      } 
+    },  
+
+    props: {
+      label: {
+        type: String,
+      },
+      noBorder: {
+        type: Boolean,
+      },
+      error: {
+        type: String,
+      },
+    },
+
+    mounted() {
+      console.log(this.$slots._)
+    },
+  })
+</script>
+
+<style lang="scss" scoped>
+  .input {
+
+    display: flex;
+    align-items: center;
+
+
+    &__name {
+      width: 4.5rem;
+
+      flex-shrink: 0;
+
+      color: var(--c-gray);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%;
+
+      margin-right: 0.75rem;
+
+    }
+
+    &__wrapper {
+      width: 100%;
+
+      border-radius: 0.25rem;
+      border: 1px solid #DDD;
+      &:hover {
+        border-color: var(--c-blue);
+      }
+
+      &._no-border {
+        border: none;
+      }
+      &._error {
+        color: var(--c-red);
+        border-color: var(--c-red);
+      }
+
+      position: relative;
+    }
+
+    &__error {
+      color: var(--c-red);
+      font-size: 0.625rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1rem;
+      text-align: right;
+
+      position: absolute;
+      right: 0;
+    }
+
+    &__error-icon {
+      width: 1rem;
+      height: 1rem;
+
+      position: absolute;
+      right: 0.5rem;
+      transform: translateY(-50%);
+      top: 50%;
+    }
+
+    &__input {
+      width: 100%;
+      height: 2.5rem;
+
+      padding: 0.5rem;
+     
+      background: #FFF;
+
+      border-radius: inherit;
+
+      color: var(--c-gray);
+      font-size: 0.75rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 160%;
+
+      &::placeholder {
+        color: #A9A9A9;
+      }
+
+      &:focus {
+        caret-color: var(--c-blue);
+      }
+
+      &._error {
+        width: calc(100% - 1rem - 0.62rem - 0.5rem);
+      }
+    }
+
+
+  }
+</style>

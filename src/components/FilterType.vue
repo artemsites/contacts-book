@@ -1,13 +1,13 @@
 <template>
 
-  <div class="filter" ref="elFilter">
+  <div class="filter" ref="elFilter" :class="{'_error': error, '_no-border': noBorder}">
     <button
       class="filter__toggle"
       aria-label="Открыть фильтр контактов"
       @click="toggleFilterOpened">
 
       <div class="filter__current" :class="{ '_not-bold': notBold }">{{ filterCurrentName }}</div>
-      <IconTriangle class="filter__icon-t"/>
+      <IconTriangle class="filter__icon-t" :class="{ '_active': isFilterOpened }" />
 
     </button>
 
@@ -54,7 +54,14 @@ export default defineComponent({
     notBold: {
       type: Boolean,
       default: false,
-    }
+    },
+    noBorder: {
+      type: Boolean,
+      default: false,
+    },
+    error: {
+      type: String,
+    },
   },
 
   data() {
@@ -93,6 +100,9 @@ export default defineComponent({
     onClickOutside(this.$refs.elFilter, () => {
       this.closeFilterOpened();
     })
+
+    console.log('this.$slots')
+    console.log(this.$slots)
   },
 
 })
@@ -121,6 +131,9 @@ export default defineComponent({
     &:hover {
       border-color: var(--c-blue);
     }
+    &._no-border {
+      border: none;
+    }
 
     &__toggle {
       width: 100%;
@@ -148,6 +161,13 @@ export default defineComponent({
         height: 1rem;
 
         margin-left: 0.5rem;
+      }
+      &-t {
+
+        transition: var(--duration);
+        &._active {
+          transform: rotate(180deg);
+        }
       }
     }
 
@@ -203,6 +223,13 @@ export default defineComponent({
 
       &._active {
         font-weight: 700;
+      }
+    }
+
+
+    &._error & {
+      &__icon-t {
+display: none;
       }
     }
 
