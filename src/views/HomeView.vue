@@ -38,7 +38,7 @@
 
     <div class="contacts__item" v-for="contact in filteredContactsByDateCreated" :key="contact.id">
       <div class="contacts__item-name _1">
-        <div class="contacts__item-avatar">{{ contact.name.slice(0, 1) }}</div>
+        <AvatarContact class="contacts__item-avatar" :name="contact.name" />
         {{ contact.name }}
       </div>
 
@@ -64,6 +64,7 @@
 import HeaderComponent from "../components/HeaderComponent.vue";
 import BtnAddContact from "../components/BtnAddContact.vue";
 import FilterType from "../components/FilterType.vue";
+import AvatarContact from "../components/AvatarContact.vue";
 import IconContact from "../components/icons/IconContact.vue";
 import { defineComponent } from 'vue';
 
@@ -78,6 +79,7 @@ export default defineComponent({
     IconContact,
     FilterType,
     BtnAddContact,
+    AvatarContact,
   },
 
   computed: {
@@ -173,19 +175,12 @@ export default defineComponent({
     &-avatar {
       display: none;
       @media screen and (min-width: 576px) {
+        display: inline-flex;
+
         width: 1.5rem;
         height: 1.5rem;
-
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-
-        border-radius: 3.5rem;
-background: #FFC700;
+        
         font-size: 0.75rem;
-        font-style: normal;
-        font-weight: 700;
-        color: var(--c-gray);
 
         margin-right: 0.5rem;
       }
