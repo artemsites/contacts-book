@@ -60,16 +60,17 @@
 
     </div>
 
-    <div class="contact-card__btns">
-      <button class="contact-card__btn _accent" aria-label="Сохранить контакт">
+    <div class="contact-card__btns _576-jc-s">
+      <button class="contact-card__btn _accent _576-ml-as-name-width _768-translate-half-left" aria-label="Сохранить контакт">
         <IconSave class="contact-card__btn-icon" />
         <span>СОХРАНИТЬ</span>
       </button>
 
-      <button class="contact-card__link" aria-label="Удалить контакт">
+      <button class="contact-card__link _576-right _768-right-1-5" aria-label="Удалить контакт">
         <IconTrash class="contact-card__link-icon" />
         <span>Удалить контакт</span>
       </button>
+
     </div>
 
   </div>
@@ -100,11 +101,18 @@ export default defineComponent({
 .contact-card {
   width: 100%;
 
-
-
   background: #FFF;
   padding: 2rem 1.25rem 3rem 1.25rem;
   box-shadow: 0px 0px 6px 0px rgba(148, 181, 225, 0.35);
+
+
+  @media screen and (min-width: 576px) {
+    padding: 2rem 3rem 3rem 3rem;
+  }
+
+  @media screen and (min-width: 768px) {
+    padding: 3rem 4rem 4rem 4rem;
+  }
 
   &__title {
     color: var(--c-gray);
@@ -138,10 +146,20 @@ export default defineComponent({
     gap: 1.5rem;
     
     margin-top: 2rem;
+    position: relative;
+    &._576-jc-s {
+      @media screen and (min-width: 576px) {
+        justify-content: flex-start;
+      }
+    }
   }
+
+  $wBtn: 7.75rem;
 
   &__btn {
     height: 2rem;
+
+    width: $wBtn;
 
     display: inline-flex;
     align-items: center;
@@ -154,6 +172,18 @@ export default defineComponent({
     // line-height: 120%;
     padding: 0.05rem 1rem;
     border-radius: 0.25rem;
+
+    &._576-ml-as-name-width {
+      @media screen and (min-width: 576px) {
+        margin-left: calc(8.5rem + 2rem);
+      }
+    }
+
+    &._768-translate-half-left {
+      @media screen and (min-width: 768px) {
+        transform: translateX(-50%);
+      }
+    }
 
     &._accent {
       background-color: var(--c-accent);
@@ -177,11 +207,30 @@ export default defineComponent({
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    &._576-right {
+      @media screen and (min-width: 576px) {
+        position: absolute;
+        // right: 0;
+        left: calc(50% + $wBtn / 2 + 1.5rem);
+      }
+    }
+
+    &._768-right-1-5 {
+      @media screen and (min-width: 768px) {
+        left: calc(50% + 1.5rem);
+      }
+    }
+
+
     &-icon {
       width: 0.75rem;
-height: 0.75rem;
+      height: 0.75rem;
 
-margin-right: 0.12rem;
+      margin-right: 0.12rem;
     }
   }
 }</style>

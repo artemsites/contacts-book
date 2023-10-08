@@ -63,7 +63,8 @@
 
 
     &__name {
-      width: 4.5rem;
+      max-width: 4.5rem;
+      width: 100%;
 
       flex-shrink: 0;
 
@@ -75,6 +76,13 @@
 
       margin-right: 0.75rem;
 
+      @media screen and (min-width: 376px) {
+        min-width: 4.5rem;
+        width: 26.5%;
+        max-width: 8.5rem;
+
+        margin-right: 2rem;
+      }
     }
 
     &__wrapper {
