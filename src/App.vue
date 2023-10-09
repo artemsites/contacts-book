@@ -1,29 +1,29 @@
 <script>
 import { RouterLink, RouterView } from 'vue-router';
 
-  import { defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
-  import { mapWritableState } from 'pinia';
-  import { useContactsStore } from '@/stores/contacts';
+import { useContactsStore } from '@/stores/contacts';
+import { mapWritableState, mapActions } from 'pinia';
 
-  export default defineComponent({
-    name: "App",
 
-    mounted() {
-      this.saveContactsToStore(localStorage.getItem('contacts'))
-    },
 
-    methods: {
-      saveContactsToStore(contacts) {
-        console.log(JSON.parse(contacts))
-        this.contacts = JSON.parse(contacts);
-      }
-    },
+export default defineComponent({
+  name: "App",
 
-    computed: {
-      ...mapWritableState(useContactsStore, 'contacts')
-    }
-  })
+  computed: {
+    ...mapWritableState(useContactsStore, 'contacts')
+  },
+
+  mounted() {
+    this.saveContactsFromLocalStorageToContactsState( localStorage.getItem('contacts') );
+  },
+
+  methods: {
+    ...mapActions(useContactsStore, ['saveContactsFromLocalStorageToContactsState'])
+  },
+
+})
 
 </script>
 

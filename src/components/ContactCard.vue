@@ -1,7 +1,15 @@
 <template>
+  
+  <ContactNotification :name="notificationName" :show="notificationShow" />
+
   <div class="contact-card">
 
     <h2 class="contact-card__title">Контакт</h2>
+
+
+
+
+
 
     <div class="contact-card__box">
 
@@ -93,8 +101,10 @@ import { defineComponent } from 'vue';
 
 import ContactType from "../components/ContactType.vue";
 import ContactInput from "../components/ContactInput.vue";
+import ContactNotification from "../components/ContactNotification.vue";
 import IconSave from "../components/icons/IconSave.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
+
 
 import { mapActions, mapState } from 'pinia';
 import { useContactsStore } from '@/stores/contacts';
@@ -107,6 +117,7 @@ export default defineComponent({
     IconSave,
     IconTrash,
     ContactInput,
+    ContactNotification,
   },
 
   data() {
@@ -115,6 +126,9 @@ export default defineComponent({
         // name,
         // typeId,
       },
+
+      notificationShow: false,
+      notificationName: 'Контакт успешно изменён',
 
       errors: {
         name: {
@@ -157,14 +171,14 @@ export default defineComponent({
 
 
       // После всех валидаций
-      const findedErrors = Object.values(this.validatedErrors).filter(error=>error!==null);
+      const foundErrors = Object.values(this.validatedErrors).filter(error=>error!==null);
 
-      if (findedErrors.length>0) {
+      if (foundErrors.length>0) {
         // Валидация не прошла
       }
       else {
         // Сохраняем
-        this.saveContact(this.contactData.id, this.tempChanges)
+        this.saveContact(this.contactData.id, this.tempChanges, this.showNotification)
       }
 
     },
@@ -172,6 +186,14 @@ export default defineComponent({
     changedInputName(name) {
       this.tempChanges.name=name
     },
+
+    showNotification() {
+      this.notificationShow = true
+
+      setTimeout(() => {
+        this.notificationShow = false
+      }, 3000);
+    }
   },
 
   watch: {
@@ -195,6 +217,7 @@ export default defineComponent({
   box-shadow: 0px 0px 6px 0px rgba(148, 181, 225, 0.35);
 
   margin: auto;
+  position: relative;
 
   @media screen and (min-width: 576px) {
     max-width: 44rem;
