@@ -82,7 +82,8 @@
         @click="validateAndSaveContactToStore"
         >
 
-        <IconSave class="contact-card__btn-icon" />
+        <IconSave class="contact-card__btn-icon" v-if="!saving" />
+        <IconSaving class="contact-card__btn-icon" v-else :class="{'_rotating': saving}"/>
         <span>СОХРАНИТЬ</span>
       </button>
 
@@ -103,6 +104,7 @@ import ContactType from "../components/ContactType.vue";
 import ContactInput from "../components/ContactInput.vue";
 import ContactNotification from "../components/ContactNotification.vue";
 import IconSave from "../components/icons/IconSave.vue";
+import IconSaving from "../components/icons/IconSaving.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
 
 
@@ -115,6 +117,7 @@ export default defineComponent({
   components: {
     ContactType,
     IconSave,
+    IconSaving,
     IconTrash,
     ContactInput,
     ContactNotification,
@@ -122,6 +125,8 @@ export default defineComponent({
 
   data() {
     return {
+      saving: false,
+
       tempChanges: {
         // name,
         // typeId,
@@ -160,6 +165,8 @@ export default defineComponent({
     },
 
     validateAndSaveContactToStore() {
+      this.saving = true;
+
       if (this.tempChanges.name) {
         if (this.tempChanges.name.replace(/\s+/g, '').length < 3) {
           this.validatedErrors.name=this.errors.name.short
@@ -175,10 +182,11 @@ export default defineComponent({
 
       if (foundErrors.length>0) {
         // Валидация не прошла
+        this.saving = false;
       }
       else {
         // Сохраняем
-        this.saveContact(this.contactData.id, this.tempChanges, this.showNotification)
+        this.saveContact(this.contactData.id, this.tempChanges, this.savingCompleteAndShowNotification)
       }
 
     },
@@ -187,7 +195,9 @@ export default defineComponent({
       this.tempChanges.name=name
     },
 
-    showNotification() {
+    savingCompleteAndShowNotification() {
+      this.saving = false;
+
       this.notificationShow = true
 
       setTimeout(() => {
@@ -295,6 +305,8 @@ export default defineComponent({
     padding: 0.05rem 1rem;
     border-radius: 0.25rem;
 
+    transition: var(--duration);
+
     &._576-ml-as-name-width {
       @media screen and (min-width: 576px) {
         margin-left: calc(8.5rem + 2rem);
@@ -309,6 +321,12 @@ export default defineComponent({
 
     &._accent {
       background-color: var(--c-accent);
+      &:hover {
+        background: #FFD84C;
+      }
+      &:active {
+        background: #F3C41E;
+      }
     }
 
     &-icon {
@@ -317,6 +335,12 @@ export default defineComponent({
       width: 1rem;
       height: 1rem;
       margin-right: 0.25rem;
+
+      &._rotating {
+        animation-name: rotate;
+        animation-duration: 0.5s;
+        animation-iteration-count: infinite;
+      }
     }
   }
 

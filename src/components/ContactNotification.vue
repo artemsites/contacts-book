@@ -64,7 +64,7 @@
     @media screen and (min-width: 768px) {
       border-radius: 0.25rem;
       background: #FFF;
-      box-shadow: 0px 0px 16px 0px rgba(176, 197, 222, 0.50);
+      box-shadow: 0px 0px 1rem 0px rgba(176, 197, 222, 0.50);
       padding: 0.75rem 0.75rem 0.75rem 0.5rem;
       color: var(--c-gray);
 
@@ -72,6 +72,13 @@
       bottom: 3rem;
       top: unset;
       transform: translateY(2rem);
+    
+    }
+    
+    @media screen and (min-width: 1600px) {
+      height: 3.5rem;
+      font-size: 0.875rem;
+      padding: 1rem 0.75rem 1rem 0.5rem;
     }
 
     &._active {
@@ -88,6 +95,10 @@
       height: 1rem;
 
       margin-right: 0.25rem;
+      @media screen and (min-width: 1600px) {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
   }
 </style>
