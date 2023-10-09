@@ -36,7 +36,13 @@
     </div>
 
 
-    <div class="contacts__item" v-for="contact in filteredContactsByDateCreated" :key="contact.id">
+    <RouterLink
+      class="contacts__item"
+      v-for="contact in filteredContactsByDateCreated"
+      :key="contact.id"
+      :to="`/contacts/${contact.id}`"
+    >
+
       <div class="contacts__item-name _1">
         <AvatarContact class="contacts__item-avatar" :name="contact.name" />
         {{ contact.name }}
@@ -56,7 +62,8 @@
       </div>
 
       <div class="contacts__item-name _3">{{ contact.dateCreated }}</div>
-    </div>
+
+    </RouterLink>
   </div>
 </template>
 
@@ -67,6 +74,8 @@ import FilterType from "../components/FilterType.vue";
 import AvatarContact from "../components/AvatarContact.vue";
 import IconContact from "../components/icons/IconContact.vue";
 import { defineComponent } from 'vue';
+
+import { RouterLink } from 'vue-router';
 
 import { mapWritableState } from 'pinia';
 import { useContactsStore } from '../stores/contacts';

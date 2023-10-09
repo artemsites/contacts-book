@@ -8,7 +8,6 @@ export const useFilterStore = defineStore('filter', {
         {
           id: 1,
           name: 'ВСЕ',
-
           active: true,
         },
         {
@@ -19,7 +18,6 @@ export const useFilterStore = defineStore('filter', {
         {
           id: 3,
           name: 'КОЛЛЕГИ',
-
         },
       ],
     }

@@ -3,16 +3,16 @@
   <div class="contact">
 
     <HeaderComponent class="contact__header">
-      <AvatarContact class="contact__avatar" name="Двери Вадим" />
-      Двери Вадим
+      <AvatarContact class="contact__avatar" :name="contactData.name" />
+      {{ contactData.name }}
 
-      <button class="contact__close">
+      <RouterLink :to="{ name: 'home' }" class="contact__close">
         <IconX />
-      </button>
+      </RouterLink>
     </HeaderComponent>
 
     <div class="container">
-      <ContactCard class="contact__card"/>
+      <ContactCard :contactData="contactData" class="contact__card"/>
     </div>
 
   </div>
@@ -26,6 +26,13 @@ import ContactCard from "../components/ContactCard.vue";
 import AvatarContact from "../components/AvatarContact.vue";
 import IconX from "../components/icons/IconX.vue";
 
+import { useContactsStore } from '@/stores/contacts';
+import { mapWritableState } from 'pinia';
+
+import { RouterLink } from 'vue-router';
+
+
+
 export default defineComponent({
   name: "ContactView",
 
@@ -34,6 +41,17 @@ export default defineComponent({
     AvatarContact,
     IconX,
     ContactCard,
+  },
+
+  computed: {
+    ...mapWritableState(useContactsStore, ['contacts']),
+
+    contactData() {
+      return this.contacts.find(contact=>contact.id===Number(this.$route.params.id))
+    },
+  },
+
+  mounted() {
   },
 })
 </script>

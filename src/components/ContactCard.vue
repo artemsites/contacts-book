@@ -9,9 +9,9 @@
 
       <ContactInput
         label="Имя"
-        error="short"
+        error=""
         type="text"
-        value="Двери Вадим"
+        :value="contactData.name"
         placeholder="Например “Андрей...”"
         class="contact-card__item" />
 
@@ -19,7 +19,9 @@
 
       <ContactInput
         label="Телефон"
+        error=""
         type="tel"
+        :value="contactData.tel"
         placeholder="+7(___)___-__-__"
         class="contact-card__item" />
 
@@ -27,20 +29,24 @@
 
       <ContactInput
         label="E-mail"
+        error=""
         type="email"
         placeholder="Например «pochta@domain.ru»..."
-        value="nelfeelingood2@gmail.com"
+        :value="contactData.email"
         class="contact-card__item" />
 
 
-        <!--  error="empty" -->
+        <!--  
+          error="empty" 
+          placeholder="Не выбрано"
+          :value="contactData.category"
+        -->
       <ContactInput
         label="Категория"
-        placeholder="Не выбрано"
-        value=""
+        error=""
         class="contact-card__item">
 
-        <FilterType class="contact-card__category" notBold noBorder />
+        <ContactType @updateContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId" class="contact-card__category"/>
 
       </ContactInput>
 
@@ -52,8 +58,7 @@
         type="text"
         readonly
         noBorder
-        placeholder="Например «pochta@domain.ru»..."
-        value="23.09.23"
+        :value="contactData.dateCreated"
         class="contact-card__item" />
 
 
@@ -79,7 +84,7 @@
 <script>
 import { defineComponent } from 'vue';
 
-import FilterType from "../components/FilterType.vue";
+import ContactType from "../components/ContactType.vue";
 import ContactInput from "../components/ContactInput.vue";
 import IconSave from "../components/icons/IconSave.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
@@ -88,11 +93,28 @@ export default defineComponent({
   name: "ContactCard",
 
   components: {
-    FilterType,
+    ContactType,
     IconSave,
     IconTrash,
     ContactInput,
+  },
 
+  data() {
+    return {
+      tempChanges: {
+        typeId: null,
+      }
+    }
+  },
+
+  props: {
+    contactData: Object,
+  },
+
+  methods: {
+    writeContactTypeToTempChanges(id) {
+      this.tempChanges.typeId = id;
+    }
   }
 })
 </script>

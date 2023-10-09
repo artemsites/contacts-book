@@ -50,7 +50,7 @@
     },
 
     mounted() {
-      console.log(this.$slots._)
+      // console.log(this.$slots._)
     },
   })
 </script>
