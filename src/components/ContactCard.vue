@@ -60,13 +60,13 @@
 
     </div>
 
-    <div class="contact-card__btns _576-jc-s">
-      <button class="contact-card__btn _accent _576-ml-as-name-width _768-translate-half-left" aria-label="Сохранить контакт">
+    <div class="contact-card__btns _576-no-gap _576-jc-fs">
+      <button class="contact-card__btn _accent _576-ml-as-name-width" aria-label="Сохранить контакт">
         <IconSave class="contact-card__btn-icon" />
         <span>СОХРАНИТЬ</span>
       </button>
 
-      <button class="contact-card__link _576-right _768-right-1-5" aria-label="Удалить контакт">
+      <button class="contact-card__link _576" aria-label="Удалить контакт">
         <IconTrash class="contact-card__link-icon" />
         <span>Удалить контакт</span>
       </button>
@@ -105,8 +105,11 @@ export default defineComponent({
   padding: 2rem 1.25rem 3rem 1.25rem;
   box-shadow: 0px 0px 6px 0px rgba(148, 181, 225, 0.35);
 
+  margin: auto;
 
   @media screen and (min-width: 576px) {
+    max-width: 44rem;
+
     padding: 2rem 3rem 3rem 3rem;
   }
 
@@ -142,12 +145,19 @@ export default defineComponent({
   &__btns {
     display: flex;
     justify-content: center;
+    align-items: center;
 
     gap: 1.5rem;
     
     margin-top: 2rem;
     position: relative;
-    &._576-jc-s {
+
+    &._576-no-gap {
+      @media screen and (min-width: 576px) {
+        gap: unset;
+      }
+    }
+    &._576-jc-fs {
       @media screen and (min-width: 576px) {
         justify-content: flex-start;
       }
@@ -179,11 +189,11 @@ export default defineComponent({
       }
     }
 
-    &._768-translate-half-left {
-      @media screen and (min-width: 768px) {
-        transform: translateX(-50%);
-      }
-    }
+    // &._768-translate-half-left {
+    //   @media screen and (min-width: 768px) {
+    //     transform: translateX(-50%);
+    //   }
+    // }
 
     &._accent {
       background-color: var(--c-accent);
@@ -208,22 +218,22 @@ export default defineComponent({
     font-weight: 400;
     line-height: normal;
 
-    top: 50%;
-    transform: translateY(-50%);
+    // top: 50%;
+    // transform: translateY(-50%);
 
-    &._576-right {
+    &._576 {
       @media screen and (min-width: 576px) {
-        position: absolute;
-        // right: 0;
-        left: calc(50% + $wBtn / 2 + 1.5rem);
+        margin-left: 1.5rem;
+
+        // left: calc(50% + $wBtn / 2 + 1.5rem);
       }
     }
 
-    &._768-right-1-5 {
-      @media screen and (min-width: 768px) {
-        left: calc(50% + 1.5rem);
-      }
-    }
+    // &._768-right-1-5 {
+    //   @media screen and (min-width: 768px) {
+    //     left: calc(50% + 1.5rem);
+    //   }
+    // }
 
 
     &-icon {

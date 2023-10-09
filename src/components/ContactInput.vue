@@ -78,7 +78,7 @@
 
       @media screen and (min-width: 376px) {
         min-width: 4.5rem;
-        width: 26.5%;
+        width: 29.8%;
         max-width: 8.5rem;
 
         margin-right: 2rem;
