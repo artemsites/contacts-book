@@ -29,6 +29,8 @@
 
   import IconAttention from "./icons/IconAttention.vue";
   import {inputMaskName} from '../helpers/inputMaskName'
+  // import {inputMaskPhone} from '../helpers/inputMaskPhone';
+  import IMask from 'imask';
 
 
   export default defineComponent({
@@ -57,6 +59,8 @@
 
     methods: {
       filterInputAndEmit(value) {
+        console.log('value')
+        console.log(value)
         let filteredValue = value;
 
         if (this.$attrs.name === 'name') {
@@ -69,9 +73,18 @@
             filteredValue = filteredValue[0] 
           }
         }
+        else if (this.$attrs.type === 'tel') {
+            const maskOptions = {
+            mask: '+{7} (000) 000-00-00'
+          };
+          filteredValue = IMask(this.$refs.thisInput, maskOptions);
+          console.log('filteredValue')
+          console.log(filteredValue)
+          filteredValue = filteredValue._value
+        }
 
         this.$refs.thisInput.value = filteredValue
-
+        
         this.$emit('changedInput', filteredValue)
       }
     },
@@ -79,6 +92,17 @@
     emits: ['changedInput'],
 
     mounted() {
+      // if (this.$attrs.type === 'tel') { 
+      //   // inputMaskPhone(this.$refs.thisInput); 
+
+      //   const maskOptions = {
+      //     mask: '+{7} (000) 000-00-00'
+      //   };
+      //   const mask = IMask(this.$refs.thisInput, maskOptions);
+      //   console.log('mask')
+      //   console.log(mask)
+
+      // }
       // console.log(this.$slots._)
     },
   })
@@ -183,6 +207,10 @@
       &._error {
         width: calc(100% - 1rem - 0.62rem - 0.5rem);
         color: var(--c-red);
+
+        &::placeholder {
+          color: var(--c-red);
+        }
       }
     }
 

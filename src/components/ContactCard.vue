@@ -24,13 +24,18 @@
           type="text"
           :value="nameValue"
           placeholder="Например “Андрей...”"
-          class="contact-card__item" 
-          />
-
-
-
-        <ContactInput label="Телефон" error="" type="tel" :value="contactData.tel" placeholder="+7(___)___-__-__"
           class="contact-card__item" />
+
+
+
+       <ContactInput
+         @changedInput="changedInputTel($event)"
+         label="Телефон"
+         :error="validatedErrors.tel"
+         type="tel"
+         :value="telValue"
+         placeholder="+7 (___) ___-__-__"
+         class="contact-card__item" />
 
 
 
@@ -116,6 +121,7 @@ export default defineComponent({
 
       tempChanges: {
         // name,
+        // tel,
         // typeId,
       },
 
@@ -125,6 +131,10 @@ export default defineComponent({
       errors: {
         name: {
           short: 'Слишком короткое имя',
+          empty: 'Поле не может быть пустым',
+        },
+        tel: {
+          short: 'Телефон не дописан',
           empty: 'Поле не может быть пустым',
         }
       },
@@ -144,7 +154,11 @@ export default defineComponent({
     nameValue() {
       if (typeof this.tempChanges.name === 'string') return this.tempChanges.name
       return this.contactData.name
-    }
+    },
+    telValue() {
+      if (typeof this.tempChanges.tel === 'string') return this.tempChanges.tel
+      return this.contactData.tel
+    },
   },
 
   methods: {
@@ -158,14 +172,11 @@ export default defineComponent({
     validateAndSaveContactToStore() {
       this.saving = true;
 
-      // console.log('this.tempChanges.name')
-      // console.log(this.tempChanges.name)
 
+      // Валидация
+      // name
       if (typeof this.tempChanges.name === 'string') {
         let nameLength = removeSpaces(this.tempChanges.name).length;
-
-        // console.log('nameLength')
-        // console.log(nameLength)
 
         if (nameLength >= 1 && nameLength < 3) {
           this.validatedErrors.name = this.errors.name.short
@@ -176,6 +187,21 @@ export default defineComponent({
         else {
           this.validatedErrors.name = null
         }
+      }
+
+      // tel
+      console.log('this.tempChanges.tel')
+      console.log(this.tempChanges.tel)
+      // console.log(this.tempChanges.tel===undefined)
+
+      if (this.tempChanges.tel === '') {
+        this.validatedErrors.tel = this.errors.tel.empty
+      } 
+      else if (this.tempChanges.tel.length < 18) {
+        this.validatedErrors.tel = this.errors.tel.short
+      }
+      else {
+        this.validatedErrors.tel = null
       }
 
       // После всех валидаций
@@ -196,6 +222,12 @@ export default defineComponent({
       // console.log('name')
       // console.log(name)
       this.tempChanges.name = name
+    },
+
+    changedInputTel(tel) {
+      // console.log('tel')
+      // console.log(tel)
+      this.tempChanges.tel = tel
     },
 
     savingCompleteAndShowNotification() {
