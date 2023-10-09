@@ -1,96 +1,81 @@
 <template>
-  
-  <ContactNotification :name="notificationName" :show="notificationShow" />
+  <div>
 
-  <div class="contact-card">
+    <ContactNotification :name="notificationName" :show="notificationShow" />
 
-    <h2 class="contact-card__title">Контакт</h2>
+    <div class="contact-card">
 
-
-
+      <h2 class="contact-card__title">Контакт</h2>
 
 
 
-    <div class="contact-card__box">
 
 
 
-      <ContactInput
-        @changedInput="changedInputName($event)"
-        label="Имя"
-        :error="validatedErrors.name" 
-        type="text"
-        :value="tempChanges.name || contactData.name"
-        placeholder="Например “Андрей...”"
-        class="contact-card__item" />
+      <div class="contact-card__box">
 
 
 
-      <ContactInput
-        label="Телефон"
-        error=""
-        type="tel"
-        :value="contactData.tel"
-        placeholder="+7(___)___-__-__"
-        class="contact-card__item" />
+        <ContactInput
+          @changedInput="changedInputName($event)"
+          label="Имя"
+          name="name"
+          :error="validatedErrors.name"
+          type="text"
+          :value="nameValue"
+          placeholder="Например “Андрей...”"
+          class="contact-card__item" 
+          />
 
 
 
-      <ContactInput
-        label="E-mail"
-        error=""
-        type="email"
-        placeholder="Например «pochta@domain.ru»..."
-        :value="contactData.email"
-        class="contact-card__item" />
+        <ContactInput label="Телефон" error="" type="tel" :value="contactData.tel" placeholder="+7(___)___-__-__"
+          class="contact-card__item" />
+
+
+
+        <ContactInput label="E-mail" error="" type="email" placeholder="Например «pochta@domain.ru»..."
+          :value="contactData.email" class="contact-card__item" />
 
 
         <!--  
-          error="empty" 
-          placeholder="Не выбрано"
-          :value="contactData.category"
-        -->
-      <ContactInput
-        label="Категория"
-        error=""
-        class="contact-card__item">
+        error="empty" 
+        placeholder="Не выбрано"
+        :value="contactData.category"
+      -->
+        <ContactInput label="Категория" error="" class="contact-card__item">
 
-        <ContactType @saveContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId" class="contact-card__category"/>
+          <ContactType @saveContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId"
+            class="contact-card__category" />
 
-      </ContactInput>
+        </ContactInput>
 
 
 
 
-      <ContactInput
-        label="Создан"
-        type="text"
-        readonly
-        noBorder
-        :value="contactData.dateCreated"
-        class="contact-card__item" />
+        <ContactInput label="Создан" type="text" readonly noBorder :value="contactData.dateCreated"
+          class="contact-card__item" />
 
 
 
-    </div>
+      </div>
 
-    <div class="contact-card__btns _576-no-gap _576-jc-fs">
+      <div class="contact-card__btns _576-no-gap _576-jc-fs">
 
-      <button
-        class="contact-card__btn _accent _576-ml-as-name-width"
-        aria-label="Сохранить контакт"
-        @click="validateAndSaveContactToStore"
-        >
+        <button class="contact-card__btn _accent _576-ml-as-name-width" aria-label="Сохранить контакт"
+          @click="validateAndSaveContactToStore">
 
-        <IconSave class="contact-card__btn-icon" v-if="!saving" />
-        <IconSaving class="contact-card__btn-icon" v-else :class="{'_rotating': saving}"/>
-        <span>СОХРАНИТЬ</span>
-      </button>
+          <IconSave class="contact-card__btn-icon" v-if="!saving" />
+          <IconSaving class="contact-card__btn-icon" v-else :class="{ '_rotating': saving }" />
+          <span>СОХРАНИТЬ</span>
+        </button>
 
-      <button class="contact-card__link _576" aria-label="Удалить контакт">
-        <IconTrash class="contact-card__link-icon" />
-        <span>Удалить контакт</span>
-      </button>
+        <button class="contact-card__link _576" aria-label="Удалить контакт">
+          <IconTrash class="contact-card__link-icon" />
+          <span>Удалить контакт</span>
+        </button>
+
+      </div>
 
     </div>
 
@@ -108,8 +93,10 @@ import IconSaving from "../components/icons/IconSaving.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
 
 
-import { mapActions, mapState } from 'pinia';
+import { mapActions } from 'pinia';
 import { useContactsStore } from '@/stores/contacts';
+
+import { removeSpaces } from '../helpers/removeSpaces'
 
 export default defineComponent({
   name: "ContactCard",
@@ -138,6 +125,7 @@ export default defineComponent({
       errors: {
         name: {
           short: 'Слишком короткое имя',
+          empty: 'Поле не может быть пустым',
         }
       },
 
@@ -152,9 +140,12 @@ export default defineComponent({
     contactData: Object,
   },
 
-  // computed: {
-  //   ...mapState(useContactsStore, ['contacts']),
-  // },
+  computed: {
+    nameValue() {
+      if (typeof this.tempChanges.name === 'string') return this.tempChanges.name
+      return this.contactData.name
+    }
+  },
 
   methods: {
 
@@ -167,20 +158,30 @@ export default defineComponent({
     validateAndSaveContactToStore() {
       this.saving = true;
 
-      if (this.tempChanges.name) {
-        if (this.tempChanges.name.replace(/\s+/g, '').length < 3) {
-          this.validatedErrors.name=this.errors.name.short
+      // console.log('this.tempChanges.name')
+      // console.log(this.tempChanges.name)
+
+      if (typeof this.tempChanges.name === 'string') {
+        let nameLength = removeSpaces(this.tempChanges.name).length;
+
+        // console.log('nameLength')
+        // console.log(nameLength)
+
+        if (nameLength >= 1 && nameLength < 3) {
+          this.validatedErrors.name = this.errors.name.short
+        }
+        else if (nameLength === 0) {
+          this.validatedErrors.name = this.errors.name.empty
         }
         else {
           this.validatedErrors.name = null
         }
       }
 
-
       // После всех валидаций
-      const foundErrors = Object.values(this.validatedErrors).filter(error=>error!==null);
+      const foundErrors = Object.values(this.validatedErrors).filter(error => error !== null);
 
-      if (foundErrors.length>0) {
+      if (foundErrors.length > 0) {
         // Валидация не прошла
         this.saving = false;
       }
@@ -192,7 +193,9 @@ export default defineComponent({
     },
 
     changedInputName(name) {
-      this.tempChanges.name=name
+      // console.log('name')
+      // console.log(name)
+      this.tempChanges.name = name
     },
 
     savingCompleteAndShowNotification() {
@@ -256,8 +259,7 @@ export default defineComponent({
     gap: 1rem;
   }
 
-  &__item {
-  }
+  &__item {}
 
   &__category {
     height: 2.5rem;
@@ -270,7 +272,7 @@ export default defineComponent({
     align-items: center;
 
     gap: 1.5rem;
-    
+
     margin-top: 2rem;
     position: relative;
 
@@ -279,6 +281,7 @@ export default defineComponent({
         gap: unset;
       }
     }
+
     &._576-jc-fs {
       @media screen and (min-width: 576px) {
         justify-content: flex-start;
@@ -321,9 +324,11 @@ export default defineComponent({
 
     &._accent {
       background-color: var(--c-accent);
+
       &:hover {
         background: #FFD84C;
       }
+
       &:active {
         background: #F3C41E;
       }
@@ -379,4 +384,5 @@ export default defineComponent({
       margin-right: 0.12rem;
     }
   }
-}</style>
+}
+</style>

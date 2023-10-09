@@ -16,7 +16,9 @@ export default defineComponent({
   },
 
   mounted() {
-    this.saveContactsFromLocalStorageToContactsState( localStorage.getItem('contacts') );
+    if (localStorage.getItem('contacts')) {
+      this.saveContactsFromLocalStorageToContactsState( localStorage.getItem('contacts') );
+    }
   },
 
   methods: {

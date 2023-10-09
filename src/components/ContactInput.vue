@@ -5,8 +5,9 @@
     <div class="input__wrapper" :class="{'_error': error, '_no-border': noBorder}">
     
       <slot>
-        <input
-          @change="$emit('changedInput', $event.target.value)"
+        <input 
+          ref="thisInput"
+          @input="filterInputAndEmit($event.target.value)" 
           class="input__input"
           :class="{'_error': error}"
           :name="$attrs.name"
@@ -27,6 +28,8 @@
   import { defineComponent } from 'vue'; 
 
   import IconAttention from "./icons/IconAttention.vue";
+  import {inputMaskName} from '../helpers/inputMaskName'
+
 
   export default defineComponent({
     name: "ContantInput",
@@ -50,6 +53,27 @@
       error: {
         type: String,
       },
+    },
+
+    methods: {
+      filterInputAndEmit(value) {
+        let filteredValue = value;
+
+        if (this.$attrs.name === 'name') {
+          filteredValue = inputMaskName(value); 
+          // console.log('filteredValue')
+          // console.log(filteredValue)
+          if (filteredValue===null) {
+            filteredValue = '';
+          } else {
+            filteredValue = filteredValue[0] 
+          }
+        }
+
+        this.$refs.thisInput.value = filteredValue
+
+        this.$emit('changedInput', filteredValue)
+      }
     },
 
     emits: ['changedInput'],
