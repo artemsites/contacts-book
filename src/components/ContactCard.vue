@@ -8,10 +8,11 @@
 
 
       <ContactInput
+        @changedInput="changedInputName($event)"
         label="Имя"
-        error=""
+        :error="validatedErrors.name" 
         type="text"
-        :value="contactData.name"
+        :value="tempChanges.name || contactData.name"
         placeholder="Например “Андрей...”"
         class="contact-card__item" />
 
@@ -46,7 +47,7 @@
         error=""
         class="contact-card__item">
 
-        <ContactType @updateContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId" class="contact-card__category"/>
+        <ContactType @saveContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId" class="contact-card__category"/>
 
       </ContactInput>
 
@@ -66,7 +67,13 @@
     </div>
 
     <div class="contact-card__btns _576-no-gap _576-jc-fs">
-      <button class="contact-card__btn _accent _576-ml-as-name-width" aria-label="Сохранить контакт">
+
+      <button
+        class="contact-card__btn _accent _576-ml-as-name-width"
+        aria-label="Сохранить контакт"
+        @click="validateAndSaveContactToStore"
+        >
+
         <IconSave class="contact-card__btn-icon" />
         <span>СОХРАНИТЬ</span>
       </button>
@@ -89,6 +96,9 @@ import ContactInput from "../components/ContactInput.vue";
 import IconSave from "../components/icons/IconSave.vue";
 import IconTrash from "../components/icons/IconTrash.vue";
 
+import { mapActions, mapState } from 'pinia';
+import { useContactsStore } from '@/stores/contacts';
+
 export default defineComponent({
   name: "ContactCard",
 
@@ -102,8 +112,20 @@ export default defineComponent({
   data() {
     return {
       tempChanges: {
-        typeId: null,
-      }
+        // name,
+        // typeId,
+      },
+
+      errors: {
+        name: {
+          short: 'Слишком короткое имя',
+        }
+      },
+
+      validatedErrors: {
+        name: null,
+      },
+
     }
   },
 
@@ -111,9 +133,54 @@ export default defineComponent({
     contactData: Object,
   },
 
+  // computed: {
+  //   ...mapState(useContactsStore, ['contacts']),
+  // },
+
   methods: {
+
+    ...mapActions(useContactsStore, ['saveContact']),
+
     writeContactTypeToTempChanges(id) {
       this.tempChanges.typeId = id;
+    },
+
+    validateAndSaveContactToStore() {
+      if (this.tempChanges.name) {
+        if (this.tempChanges.name.replace(/\s+/g, '').length < 3) {
+          this.validatedErrors.name=this.errors.name.short
+        }
+        else {
+          this.validatedErrors.name = null
+        }
+      }
+
+
+      // После всех валидаций
+      const findedErrors = Object.values(this.validatedErrors).filter(error=>error!==null);
+
+      if (findedErrors.length>0) {
+        // Валидация не прошла
+      }
+      else {
+        // Сохраняем
+        this.saveContact(this.contactData.id, this.tempChanges)
+      }
+
+    },
+
+    changedInputName(name) {
+      this.tempChanges.name=name
+    },
+  },
+
+  watch: {
+    contacts: {
+      handler(newState) {
+        console.log('newState')
+        console.log(newState)
+      },
+      deep: true,
     }
   }
 })

@@ -47,7 +47,11 @@ export default defineComponent({
     ...mapWritableState(useContactsStore, ['contacts']),
 
     contactData() {
-      return this.contacts.find(contact=>contact.id===Number(this.$route.params.id))
+      return this.contacts.find(contact=>contact.id===this.contactId)
+    },
+
+    contactId() {
+      return Number(this.$route.params.id)
     },
   },
 

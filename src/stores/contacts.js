@@ -61,4 +61,17 @@ export const useContactsStore = defineStore('contacts', {
     }
   },
 
+  actions: {
+    saveContact(id, newData) {
+      let targetContact = this.contacts.find(contact=>contact.id===id);
+
+      if (newData.name) targetContact.name = newData.name;
+
+      this.saveContactsToLocalStorage();
+    },
+    saveContactsToLocalStorage() {
+      localStorage.setItem('contacts', JSON.stringify(this.contacts))
+    }
+  }
+
 });

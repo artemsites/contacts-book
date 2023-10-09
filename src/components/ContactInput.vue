@@ -5,12 +5,20 @@
     <div class="input__wrapper" :class="{'_error': error, '_no-border': noBorder}">
     
       <slot>
-        <input class="input__input" :class="{'_error': error}" :name="$attrs.name" :type="$attrs.type" :placeholder="$attrs.placeholder" :value="$attrs.value" :readonly="$attrs.readonly">
+        <input
+          @change="$emit('changedInput', $event.target.value)"
+          class="input__input"
+          :class="{'_error': error}"
+          :name="$attrs.name"
+          :type="$attrs.type"
+          :placeholder="$attrs.placeholder"
+          :value="$attrs.value"
+          :readonly="$attrs.readonly">
       </slot>
     
       <IconAttention class="input__error-icon" v-if="error" />
 
-      <div class="input__error">{{ errors[error] }}</div>
+      <div class="input__error">{{ error }}</div>
     </div>
   </label>
 </template>
@@ -29,11 +37,6 @@
 
     data() { 
       return { 
-        errors: { 
-          short: 'Слишком короткое имя', 
-          empty: 'Поле не можеть быть пустым', 
-          email: 'Некорректный e-mail', 
-        } 
       } 
     },  
 
@@ -48,6 +51,8 @@
         type: String,
       },
     },
+
+    emits: ['changedInput'],
 
     mounted() {
       // console.log(this.$slots._)
@@ -153,6 +158,7 @@
 
       &._error {
         width: calc(100% - 1rem - 0.62rem - 0.5rem);
+        color: var(--c-red);
       }
     }
 
