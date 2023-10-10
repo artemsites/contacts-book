@@ -3,8 +3,9 @@
   <div class="contact">
 
     <HeaderComponent class="contact__header">
-      <AvatarContact class="contact__avatar" :name="contactData.name" />
-      {{ contactData.name }}
+      <IconAddUser class="contact__header-icon" />
+      Добавить контакт
+      
 
       <RouterLink :to="{ name: 'home' }" class="contact__close">
         <IconX />
@@ -12,7 +13,7 @@
     </HeaderComponent>
 
     <div class="container">
-        <ContactCard :contactData="contactData" noDateCreated class="contact__card"/>
+        <ContactCard title="Новый контакт" :contactData="contactData" noDateCreated noBtnDelete class="contact__card"/>
     </div>
 
   </div>
@@ -23,8 +24,8 @@
 import { defineComponent } from 'vue';
 import HeaderComponent from "../components/HeaderComponent.vue";
 import ContactCard from "../components/ContactCard.vue";
-import AvatarContact from "../components/AvatarContact.vue";
 import IconX from "../components/icons/IconX.vue";
+import IconAddUser from "../components/icons/IconAddUser.vue";
 
 import { useContactsStore } from '@/stores/contacts';
 import { mapWritableState } from 'pinia';
@@ -38,9 +39,9 @@ export default defineComponent({
 
   components: {
     HeaderComponent,
-    AvatarContact,
     IconX,
     ContactCard,
+    IconAddUser,
   },
 
   computed: {

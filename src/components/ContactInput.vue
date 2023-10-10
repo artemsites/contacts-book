@@ -207,7 +207,7 @@
       line-height: 160%;
 
       &::placeholder {
-        color: #A9A9A9;
+        color: var(--c-gray-light);
       }
 
       &:focus {

@@ -12,7 +12,7 @@
     </HeaderComponent>
 
     <div class="container">
-        <ContactCard :contactData="contactData" class="contact__card"/>
+        <ContactCard title="Контакт" :contactData="contactData" class="contact__card"/>
     </div>
 
   </div>

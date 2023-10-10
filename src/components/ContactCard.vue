@@ -5,7 +5,7 @@
 
     <div class="contact-card">
 
-      <h2 class="contact-card__title">Контакт</h2>
+      <h2 class="contact-card__title">{{ title }}</h2>
 
 
 
@@ -25,14 +25,14 @@
 
 
 
-       <ContactInput
-         @changedInput="changedInputTel($event)"
-         label="Телефон"
-         :error="validatedErrors.tel"
-         type="tel"
-         :value="telValue"
-         placeholder="+7 (___) ___-__-__"
-         class="contact-card__item" />
+        <ContactInput
+          @changedInput="changedInputTel($event)"
+          label="Телефон"
+          :error="validatedErrors.tel"
+          type="tel"
+          :value="telValue"
+          placeholder="+7 (___) ___-__-__"
+          class="contact-card__item" />
 
 
 
@@ -81,7 +81,7 @@
           <span>СОХРАНИТЬ</span>
         </button>
 
-        <button class="contact-card__link _576" :class="{'_attention': confirmedRemoveContact }" aria-label="Удалить контакт" @click="handlerRemoveContact(contactData.id)">
+        <button v-if="!noBtnDelete" class="contact-card__link _576" :class="{'_attention': confirmedRemoveContact }" aria-label="Удалить контакт" @click="handlerRemoveContact(contactData.id)">
           <IconTrash class="contact-card__link-icon" />
           <span v-if="!confirmedRemoveContact">Удалить контакт</span>
           <span v-else>Точно удалить!</span>
@@ -167,6 +167,12 @@ export default defineComponent({
     contactData: Object,
     noDateCreated: {
       type: Boolean,
+    },
+    noBtnDelete: {
+      type: Boolean,
+    },
+    title: {
+      type: String,
     }
   },
 

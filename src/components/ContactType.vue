@@ -2,7 +2,7 @@
   <div class="filter _no-border" ref="elContactsTypes" :class="{ '_error': error }">
     <button class="filter__toggle" aria-label="Открыть фильтр контактов" @click="toggleContactTypesOpened">
 
-      <div class="filter__current _no-bold">{{ contactTypeName }}</div>
+      <div class="filter__current _no-bold" :class="{'_gray': !isContactTypeSelected}">{{ contactTypeName }}</div>
       <IconTriangle class="filter__icon-t" :class="{ '_active': isContactTypesOpened }" />
 
     </button>
@@ -97,10 +97,18 @@ export default defineComponent({
       return this.contactsTypes.find(type=>type.id===this.typeId)
     },
 
+    isContactTypeSelected() {
+      if (this.tempChangedTypeId !== null) {
+        return true
+      }
+      return false
+    },
+
     contactTypeName() {
       if (this.tempChangedTypeId !== null) {
         return this.contactsTypes.find(type=>type.id===this.tempChangedTypeId).name
       }
+
       return 'Не выбрано'
       // return this.type.name
     }
