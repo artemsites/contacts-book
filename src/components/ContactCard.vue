@@ -56,7 +56,10 @@
       -->
         <ContactInput label="Категория" error="" class="contact-card__item">
 
-          <ContactType @saveContactType="writeContactTypeToTempChanges($event)" error="" :typeId="contactData.typeId"
+          <ContactType
+            @updateContactType="changedContactType($event)"
+            error=""
+            :typeId="contactData.typeId"
             class="contact-card__category" />
 
         </ContactInput>
@@ -183,10 +186,6 @@ export default defineComponent({
 
     ...mapActions(useContactsStore, ['saveContact']),
 
-    writeContactTypeToTempChanges(id) {
-      this.tempChanges.typeId = id;
-    },
-
     validateAndSaveContactToStore() {
       this.saving = true;
 
@@ -221,8 +220,6 @@ export default defineComponent({
       }
 
       // email
-      console.log('this.tempChanges.email')
-      console.log(this.tempChanges.email)
       if (this.tempChanges.email) {
         // Должно быть @ и .
         if (checkEmailRegexp(this.tempChanges.email)) {
@@ -232,6 +229,9 @@ export default defineComponent({
           this.validatedErrors.email = this.errors.email.notValid
         }
       }
+
+      // console.log('this.tempChanges.typeId')
+      // console.log(this.tempChanges.typeId)
 
 
 
@@ -265,6 +265,10 @@ export default defineComponent({
       // console.log('tel')
       // console.log(tel)
       this.tempChanges.email = email
+    },
+
+    changedContactType(id) {
+      this.tempChanges.typeId = id;
     },
 
     savingCompleteAndShowNotification() {

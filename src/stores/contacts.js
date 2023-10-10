@@ -68,6 +68,7 @@ export const useContactsStore = defineStore('contacts', {
       if (newData.name) targetContact.name = newData.name;
       if (newData.tel) targetContact.tel = newData.tel;
       if (newData.email) targetContact.email = newData.email;
+      if (newData.typeId) targetContact.typeId = newData.typeId;
 
       setTimeout(() => {
         this.saveContactsToLocalStorage();
