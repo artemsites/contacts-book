@@ -26,11 +26,6 @@ import ContactCard from "../components/ContactCard.vue";
 import IconX from "../components/icons/IconX.vue";
 import IconAddUser from "../components/icons/IconAddUser.vue";
 
-import { useContactsStore } from '@/stores/contacts';
-import { mapWritableState } from 'pinia';
-
-import { RouterLink } from 'vue-router';
-
 
 
 export default defineComponent({
@@ -45,15 +40,12 @@ export default defineComponent({
 
   data() {
     return {
+      // Передаём пустой контакт именно с null чтобы логика работы с новым контактом работала при валидации и сохранении и т.д.
       contactData: null,
     }
   },
 
   computed: {
-    // ...mapWritableState(useContactsStore, ['contacts']),
-
-
-
     contactId() {
       return Number(this.$route.params.id)
     },
