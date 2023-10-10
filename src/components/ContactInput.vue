@@ -63,6 +63,7 @@
         console.log(value)
         let filteredValue = value;
 
+        // Фильтры ввода
         if (this.$attrs.name === 'name') {
           filteredValue = inputMaskName(value); 
           // console.log('filteredValue')
@@ -82,6 +83,15 @@
           console.log(filteredValue)
           filteredValue = filteredValue._value
         }
+        // else if (this.$attrs.type === 'email') {
+        //   // const maskOptions = {
+        //   //   mask: '+{7} (000) 000-00-00'
+        //   // };
+        //   // filteredValue = IMask(this.$refs.thisInput, maskOptions);
+        //   // console.log('filteredValue')
+        //   // console.log(filteredValue)
+        //   // filteredValue = filteredValue._value
+        // }
 
         this.$refs.thisInput.value = filteredValue
         

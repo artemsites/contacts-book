@@ -39,8 +39,14 @@
 
 
 
-        <ContactInput label="E-mail" error="" type="email" placeholder="Например «pochta@domain.ru»..."
-          :value="contactData.email" class="contact-card__item" />
+        <ContactInput
+          @changedInput="changedInputEmail($event)"
+          label="E-mail"
+          :error="validatedErrors.email"
+          type="email"
+          placeholder="Например «pochta@domain.ru»..."
+          :value="emailValue"
+          class="contact-card__item" />
 
 
         <!--  
@@ -102,17 +108,19 @@ import { mapActions } from 'pinia';
 import { useContactsStore } from '@/stores/contacts';
 
 import { removeSpaces } from '../helpers/removeSpaces'
+import { checkEmailRegexp } from '../helpers/checkEmailRegexp'
 
 export default defineComponent({
   name: "ContactCard",
 
   components: {
     ContactType,
+    ContactInput,
+    ContactNotification,
+
     IconSave,
     IconSaving,
     IconTrash,
-    ContactInput,
-    ContactNotification,
   },
 
   data() {
@@ -123,6 +131,7 @@ export default defineComponent({
         // name,
         // tel,
         // typeId,
+        // email
       },
 
       notificationShow: false,
@@ -136,11 +145,16 @@ export default defineComponent({
         tel: {
           short: 'Телефон не дописан',
           empty: 'Поле не может быть пустым',
+        },
+        email: {
+          notValid: 'Некорректный e-mail',
         }
       },
 
       validatedErrors: {
         name: null,
+        tel: null,
+        email: null,
       },
 
     }
@@ -158,6 +172,10 @@ export default defineComponent({
     telValue() {
       if (typeof this.tempChanges.tel === 'string') return this.tempChanges.tel
       return this.contactData.tel
+    },
+    emailValue() {
+      if (typeof this.tempChanges.email === 'string') return this.tempChanges.email
+      return this.contactData.email
     },
   },
 
@@ -190,19 +208,32 @@ export default defineComponent({
       }
 
       // tel
-      console.log('this.tempChanges.tel')
-      console.log(this.tempChanges.tel)
-      // console.log(this.tempChanges.tel===undefined)
+      if (this.tempChanges.tel!==undefined) {
+        if (this.tempChanges.tel === '') {
+          this.validatedErrors.tel = this.errors.tel.empty
+        } 
+        else if (this.tempChanges.tel.length < 18) {
+          this.validatedErrors.tel = this.errors.tel.short
+        }
+        else {
+          this.validatedErrors.tel = null
+        }
+      }
 
-      if (this.tempChanges.tel === '') {
-        this.validatedErrors.tel = this.errors.tel.empty
-      } 
-      else if (this.tempChanges.tel.length < 18) {
-        this.validatedErrors.tel = this.errors.tel.short
+      // email
+      console.log('this.tempChanges.email')
+      console.log(this.tempChanges.email)
+      if (this.tempChanges.email) {
+        // Должно быть @ и .
+        if (checkEmailRegexp(this.tempChanges.email)) {
+          this.validatedErrors.email = null
+        }
+        else {
+          this.validatedErrors.email = this.errors.email.notValid
+        }
       }
-      else {
-        this.validatedErrors.tel = null
-      }
+
+
 
       // После всех валидаций
       const foundErrors = Object.values(this.validatedErrors).filter(error => error !== null);
@@ -228,6 +259,12 @@ export default defineComponent({
       // console.log('tel')
       // console.log(tel)
       this.tempChanges.tel = tel
+    },
+
+    changedInputEmail(email) {
+      // console.log('tel')
+      // console.log(tel)
+      this.tempChanges.email = email
     },
 
     savingCompleteAndShowNotification() {
