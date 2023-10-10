@@ -22,7 +22,7 @@ const router = createRouter({
     },
     {
       path: '/add-contact',
-      name: 'addContact',
+      name: 'add-contact',
       component: AddContactView
     },
     // {

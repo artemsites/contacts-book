@@ -2,7 +2,7 @@
   <div class="filter" ref="elFilter">
     <button class="filter__toggle" aria-label="Открыть фильтр контактов" @click="toggleFilterOpened">
 
-      <div class="filter__current">{{ filterCurrentName }}</div>
+      <div class="filter__current _uppercase">{{ filterCurrentName }}</div>
       <IconTriangle class="filter__icon-t" :class="{ '_active': isFilterOpened }" />
 
     </button>
@@ -11,7 +11,7 @@
       <button aria-label="Выбор фильтра контактов" class="filter__item" v-for="fItem in filterList" :key="fItem.id"
         :class="{ '_active': fItem.active }" @click="selectFilter(fItem.id)">
 
-        <span class="filter__item-name">{{ fItem.name }}</span>
+        <span class="filter__item-name _uppercase">{{ fItem.name }}</span>
 
         <IconV v-if="fItem.active" class="filter__icon-v" />
 
@@ -65,6 +65,8 @@ export default defineComponent({
 
       this.filterList.find(fI => fI.id === id).active = true
 
+      this.$emit('selectedFilterType', id);
+
       this.closeFilterOpened();
     }
   },
@@ -77,7 +79,12 @@ export default defineComponent({
     }
   },
 
+  emits: ['selectedFilterType'],
+
   mounted() {
+    console.log('this.filterList')
+    console.log(this.filterList)
+
     onClickOutside(this.$refs.elFilter, () => {
       this.closeFilterOpened();
     })

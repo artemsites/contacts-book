@@ -12,9 +12,12 @@
   <div class="contacts__btns">
 
     <div class="contacts__btns-wrapper container">
-      <FilterType />
+      
+      <FilterType @selectedFilterType="handlerFilterType($event)" />
 
-      <BtnAddContact class="contacts__btn-add"/>
+      <RouterLink :to="{name: 'add-contact'}">
+        <BtnAddContact class="contacts__btn-add" />
+      </RouterLink>
     </div>
 
   </div>
@@ -43,7 +46,7 @@
 
     <RouterLink
       class="contacts__item"
-      v-for="contact in filteredContactsByDateCreated"
+      v-for="contact in filteredContacts"
       :key="contact.id"
       :to="`/contacts/${contact.id}`"
     >
@@ -111,11 +114,18 @@ export default defineComponent({
   computed: {
     ...mapWritableState(useContactsStore, ['contacts']),
 
-    filteredContactsByDateCreated() {
+    filteredContacts() {
       return this.contacts.sort((a, b) => {
         if (a.dateCreated > b.dateCreated) return 1
         return -1 
       })
+    }
+  },
+
+  methods: {
+    handlerFilterType(id) {
+      console.log('id')
+      console.log(id)
     }
   },
 

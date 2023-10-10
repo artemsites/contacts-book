@@ -1,24 +1,18 @@
 import { defineStore } from 'pinia';
 
+import { useContactsStore } from './contacts';
+
 export const useFilterStore = defineStore('filter', {
   
   state: () => {
     return {
       filterList: [
         {
-          id: 1,
+          id: 0,
           name: 'ВСЕ',
           active: true,
         },
-        {
-          id: 2,
-          name: 'РОДСТВЕННИКИ',
-
-        },
-        {
-          id: 3,
-          name: 'КОЛЛЕГИ',
-        },
+        ...useContactsStore().contactsTypes,
       ],
     }
   },
