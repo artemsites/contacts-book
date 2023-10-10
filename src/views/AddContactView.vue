@@ -1,6 +1,6 @@
 <template>
 
-  <div class="contact" v-if="contactData">
+  <div class="contact">
 
     <HeaderComponent class="contact__header">
       <AvatarContact class="contact__avatar" :name="contactData.name" />
@@ -12,7 +12,7 @@
     </HeaderComponent>
 
     <div class="container">
-        <ContactCard :contactData="contactData" class="contact__card"/>
+        <ContactCard :contactData="contactData" noDateCreated class="contact__card"/>
     </div>
 
   </div>
@@ -44,10 +44,14 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapWritableState(useContactsStore, ['contacts']),
+    // ...mapWritableState(useContactsStore, ['contacts']),
 
     contactData() {
-      return this.contacts.find(contact=>contact.id===this.contactId)
+      return {
+        name: '',
+        typeId: null,
+      }
+      // return this.contacts.find(contact=>contact.id===this.contactId)
     },
 
     contactId() {

@@ -101,7 +101,8 @@ export default defineComponent({
       if (this.tempChangedTypeId !== null) {
         return this.contactsTypes.find(type=>type.id===this.tempChangedTypeId).name
       }
-      return this.type.name
+      return 'Не выбрано'
+      // return this.type.name
     }
 
   },

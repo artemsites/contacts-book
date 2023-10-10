@@ -64,7 +64,7 @@
 
 
 
-        <ContactInput label="Создан" type="text" readonly noBorder :value="contactData.dateCreated"
+        <ContactInput v-if="!noDateCreated" label="Создан" type="text" readonly noBorder :value="contactData.dateCreated"
           class="contact-card__item" />
 
 
@@ -165,6 +165,9 @@ export default defineComponent({
 
   props: {
     contactData: Object,
+    noDateCreated: {
+      type: Boolean,
+    }
   },
 
   computed: {
