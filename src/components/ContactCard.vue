@@ -84,9 +84,10 @@
           <span>СОХРАНИТЬ</span>
         </button>
 
-        <button class="contact-card__link _576" aria-label="Удалить контакт">
+        <button class="contact-card__link _576" :class="{'_attention': confirmedRemoveContact }" aria-label="Удалить контакт" @click="handlerRemoveContact(contactData.id)">
           <IconTrash class="contact-card__link-icon" />
-          <span>Удалить контакт</span>
+          <span v-if="!confirmedRemoveContact">Удалить контакт</span>
+          <span v-else>Точно удалить!</span>
         </button>
 
       </div>
@@ -137,6 +138,8 @@ export default defineComponent({
         // email
       },
 
+      confirmedRemoveContact: false,
+
       notificationShow: false,
       notificationName: 'Контакт успешно изменён',
 
@@ -184,7 +187,7 @@ export default defineComponent({
 
   methods: {
 
-    ...mapActions(useContactsStore, ['saveContact']),
+    ...mapActions(useContactsStore, ['saveContact', 'removeContact']),
 
     validateAndSaveContactToStore() {
       this.saving = true;
@@ -249,6 +252,10 @@ export default defineComponent({
 
     },
 
+    redirectToContacts() {
+      this.$router.push({name:'home'})
+    },
+
     changedInputName(name) {
       // console.log('name')
       // console.log(name)
@@ -279,7 +286,22 @@ export default defineComponent({
       setTimeout(() => {
         this.notificationShow = false
       }, 3000);
-    }
+    },
+
+    handlerRemoveContact(id) {
+      if (this.confirmedRemoveContact) {
+        // Удаление контакта
+        this.removeContact(id, this.redirectToContacts);
+
+
+        this.confirmedRemoveContact = false
+      }
+      else {
+        this.confirmedRemoveContact = true
+      }
+
+    },
+
   },
 
   watch: {
@@ -454,7 +476,16 @@ export default defineComponent({
       width: 0.75rem;
       height: 0.75rem;
 
+      fill: var(--c-blue);
+
       margin-right: 0.12rem;
+    }
+
+    &._attention {
+      color: var(--c-red);
+    }
+    &._attention &-icon {
+      fill: var(--c-red);
     }
   }
 }

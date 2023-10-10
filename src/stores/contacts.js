@@ -75,6 +75,18 @@ export const useContactsStore = defineStore('contacts', {
         callback()
       }, 500);
     },
+
+    removeContact(id, callback=null) {
+      let targetContactIndex = this.contacts.findIndex(contact=>contact.id === id);
+
+      this.contacts.splice(targetContactIndex, 1);
+
+      setTimeout(() => {
+        this.saveContactsToLocalStorage();
+        if (callback) callback();
+      }, 500);    
+    },
+
     saveContactsToLocalStorage() {
       localStorage.setItem('contacts', JSON.stringify(this.contacts))
     },

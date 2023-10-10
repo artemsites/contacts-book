@@ -1,6 +1,6 @@
 <template>
 
-  <div class="contact">
+  <div class="contact" v-if="contactData">
 
     <HeaderComponent class="contact__header">
       <AvatarContact class="contact__avatar" :name="contactData.name" />
@@ -12,7 +12,7 @@
     </HeaderComponent>
 
     <div class="container">
-      <ContactCard :contactData="contactData" class="contact__card"/>
+        <ContactCard :contactData="contactData" class="contact__card"/>
     </div>
 
   </div>
