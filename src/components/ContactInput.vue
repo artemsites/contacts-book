@@ -59,15 +59,11 @@
 
     methods: {
       filterInputAndEmit(value) {
-        console.log('value')
-        console.log(value)
         let filteredValue = value;
 
         // Фильтры ввода
         if (this.$attrs.name === 'name') {
           filteredValue = inputMaskName(value); 
-          // console.log('filteredValue')
-          // console.log(filteredValue)
           if (filteredValue===null) {
             filteredValue = '';
           } else {
@@ -79,8 +75,6 @@
             mask: '+{7} (000) 000-00-00'
           };
           filteredValue = IMask(this.$refs.thisInput, maskOptions);
-          console.log('filteredValue')
-          console.log(filteredValue)
           filteredValue = filteredValue._value
         }
         // else if (this.$attrs.type === 'email') {
@@ -88,8 +82,6 @@
         //   //   mask: '+{7} (000) 000-00-00'
         //   // };
         //   // filteredValue = IMask(this.$refs.thisInput, maskOptions);
-        //   // console.log('filteredValue')
-        //   // console.log(filteredValue)
         //   // filteredValue = filteredValue._value
         // }
 
@@ -109,11 +101,8 @@
       //     mask: '+{7} (000) 000-00-00'
       //   };
       //   const mask = IMask(this.$refs.thisInput, maskOptions);
-      //   console.log('mask')
-      //   console.log(mask)
 
       // }
-      // console.log(this.$slots._)
     },
   })
 </script>
@@ -178,16 +167,18 @@
 
       position: absolute;
       right: 0;
-    }
 
-    &__error-icon {
-      width: 1rem;
-      height: 1rem;
+      &-icon {
+        width: 1rem;
+        height: 1rem;
 
-      position: absolute;
-      right: 0.5rem;
-      transform: translateY(-50%);
-      top: 50%;
+        background: white;
+
+        position: absolute;
+        right: 0.5rem;
+        transform: translateY(-50%);
+        top: 50%;
+      }
     }
 
     &__input {

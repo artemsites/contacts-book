@@ -5,7 +5,6 @@
     <HeaderComponent class="contact__header">
       <IconAddUser class="contact__header-icon" />
       Добавить контакт
-      
 
       <RouterLink :to="{ name: 'home' }" class="contact__close">
         <IconX />
@@ -13,7 +12,7 @@
     </HeaderComponent>
 
     <div class="container">
-        <ContactCard title="Новый контакт" :contactData="contactData" noDateCreated noBtnDelete class="contact__card"/>
+      <ContactCard notificationName="Контакт успешно создан" title="Новый контакт" newContact :contactData="contactData" noDateCreated noBtnDelete class="contact__card"/>
     </div>
 
   </div>
@@ -44,16 +43,16 @@ export default defineComponent({
     IconAddUser,
   },
 
+  data() {
+    return {
+      contactData: {},
+    }
+  },
+
   computed: {
     // ...mapWritableState(useContactsStore, ['contacts']),
 
-    contactData() {
-      return {
-        name: '',
-        typeId: null,
-      }
-      // return this.contacts.find(contact=>contact.id===this.contactId)
-    },
+
 
     contactId() {
       return Number(this.$route.params.id)

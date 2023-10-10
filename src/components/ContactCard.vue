@@ -51,12 +51,12 @@
           placeholder="Не выбрано"
           :value="contactData.category"
         -->
-        <ContactInput label="Категория" error="" class="contact-card__item">
+        <ContactInput label="Категория" :error="validatedErrors.type" class="contact-card__item">
 
           <ContactType
+            :error="validatedErrors.type"
             @updateContactType="changedContactType($event)"
-            error=""
-            :typeId="contactData.typeId"
+            :typeId="typeIdValue"
             class="contact-card__category" />
 
         </ContactInput>
@@ -128,6 +128,7 @@ export default defineComponent({
     return {
       saving: false,
 
+      tempChangesCleared: false,
       tempChanges: {
         // name,
         // tel,
@@ -138,7 +139,6 @@ export default defineComponent({
       confirmedRemoveContact: false,
 
       notificationShow: false,
-      notificationName: 'Контакт успешно изменён',
 
       errors: {
         name: {
@@ -151,6 +151,10 @@ export default defineComponent({
         },
         email: {
           notValid: 'Некорректный e-mail',
+          empty: 'Поле не может быть пустым',
+        },
+        type: {
+          empty: 'Поле не может быть пустым',
         }
       },
 
@@ -171,7 +175,13 @@ export default defineComponent({
     noBtnDelete: {
       type: Boolean,
     },
+    newContact: {
+      type: Boolean,
+    },
     title: {
+      type: String,
+    },
+    notificationName: {
       type: String,
     }
   },
@@ -189,6 +199,14 @@ export default defineComponent({
       if (typeof this.tempChanges.email === 'string') return this.tempChanges.email
       return this.contactData.email
     },
+    typeIdValue() {
+      // console.log('this.tempChanges.typeId')
+      // console.log(this.tempChanges.typeId)
+      // console.log('this.contactData.typeId')
+      // console.log(this.contactData.typeId)
+      if (typeof this.tempChanges.typeId === 'number') return this.tempChanges.typeId
+      return this.contactData.typeId
+    },
   },
 
   methods: {
@@ -198,62 +216,15 @@ export default defineComponent({
     validateAndSaveContactToStore() {
       this.saving = true;
 
+      this.validateInputs()
 
-      // Валидация
-      // name
-      if (typeof this.tempChanges.name === 'string') {
-        let nameLength = removeSpaces(this.tempChanges.name).length;
-
-        if (nameLength >= 1 && nameLength < 3) {
-          this.validatedErrors.name = this.errors.name.short
-        }
-        else if (nameLength === 0) {
-          this.validatedErrors.name = this.errors.name.empty
-        }
-        else {
-          this.validatedErrors.name = null
-        }
-      }
-
-      // tel
-      if (this.tempChanges.tel!==undefined) {
-        if (this.tempChanges.tel === '') {
-          this.validatedErrors.tel = this.errors.tel.empty
-        } 
-        else if (this.tempChanges.tel.length < 18) {
-          this.validatedErrors.tel = this.errors.tel.short
-        }
-        else {
-          this.validatedErrors.tel = null
-        }
-      }
-
-      // email
-      if (this.tempChanges.email) {
-        // Должно быть @ и .
-        if (checkEmailRegexp(this.tempChanges.email)) {
-          this.validatedErrors.email = null
-        }
-        else {
-          this.validatedErrors.email = this.errors.email.notValid
-        }
-      }
-
-      // console.log('this.tempChanges.typeId')
-      // console.log(this.tempChanges.typeId)
-
-
-
-      // После всех валидаций
-      const foundErrors = Object.values(this.validatedErrors).filter(error => error !== null);
-
-      if (foundErrors.length > 0) {
-        // Валидация не прошла
-        this.saving = false;
+      if (this.validateInputs()) {
+        // Сохраняем
+        this.saveContact(this.contactData.id, this.tempChanges, this.savingCompleteAndShowNotificationAndResetInputs, true)
       }
       else {
-        // Сохраняем
-        this.saveContact(this.contactData.id, this.tempChanges, this.savingCompleteAndShowNotification)
+        // Валидация не прошла
+        this.saving = false;
       }
 
     },
@@ -263,20 +234,14 @@ export default defineComponent({
     },
 
     changedInputName(name) {
-      // console.log('name')
-      // console.log(name)
       this.tempChanges.name = name
     },
 
     changedInputTel(tel) {
-      // console.log('tel')
-      // console.log(tel)
       this.tempChanges.tel = tel
     },
 
     changedInputEmail(email) {
-      // console.log('tel')
-      // console.log(tel)
       this.tempChanges.email = email
     },
 
@@ -284,7 +249,13 @@ export default defineComponent({
       this.tempChanges.typeId = id;
     },
 
-    savingCompleteAndShowNotification() {
+    savingCompleteAndShowNotificationAndResetInputs() {
+      if (this.newContact) {
+        // Очистить поля
+        this.tempChangesCleared = true
+        this.tempChanges = {}
+      }
+
       this.saving = false;
 
       this.notificationShow = true
@@ -299,7 +270,6 @@ export default defineComponent({
         // Удаление контакта
         this.removeContact(id, this.redirectToContacts);
 
-
         this.confirmedRemoveContact = false
       }
       else {
@@ -308,13 +278,97 @@ export default defineComponent({
 
     },
 
+    validateInputs() {
+      if (!this.tempChangesCleared) {
+        // Валидация
+
+        // name
+        if (typeof this.tempChanges.name === 'string') {
+          let nameLength = removeSpaces(this.tempChanges.name).length;
+
+          if (nameLength >= 1 && nameLength < 3) {
+            this.validatedErrors.name = this.errors.name.short
+          }
+          else if (nameLength === 0) {
+            this.validatedErrors.name = this.errors.name.empty
+          }
+          else {
+            this.validatedErrors.name = null
+          }
+        }
+        // Когда добавление новго котакта
+        else if (this.tempChanges.name===undefined) {
+          this.validatedErrors.name = this.errors.name.empty
+        }
+
+        // tel
+        if (this.tempChanges.tel!==undefined) {
+          if (this.tempChanges.tel === '') {
+            this.validatedErrors.tel = this.errors.tel.empty
+          } 
+          else if (this.tempChanges.tel.length < 18) {
+            this.validatedErrors.tel = this.errors.tel.short
+          }
+          else {
+            this.validatedErrors.tel = null
+          }
+        }
+        // Когда добавление новго котакта
+        else if (this.tempChanges.tel===undefined) {
+          this.validatedErrors.tel = this.errors.tel.empty
+        }
+
+        // email
+        if (this.tempChanges.email) {
+          // Должно быть @ и .
+          if (checkEmailRegexp(this.tempChanges.email)) {
+            this.validatedErrors.email = null
+          }
+          else {
+            this.validatedErrors.email = this.errors.email.notValid
+          }
+        }
+        // Когда добавление новго котакта
+        else if (this.tempChanges.email===undefined) {
+          this.validatedErrors.email = this.errors.email.empty
+        }
+
+        // typeId
+        // Когда добавление новго котакта
+        if (this.tempChanges.typeId===undefined) {
+          this.validatedErrors.type = this.errors.type.empty
+        }
+        else {
+          this.validatedErrors.type = null
+        }
+
+        // После всех валидаций
+        const foundErrors = Object.values(this.validatedErrors).filter(error => error !== null);
+
+        if (foundErrors.length > 0) {
+          // Валидация не прошла
+          return false
+        }
+        else {
+          return true
+        }
+      }
+
+      this.tempChangesCleared = false
+    }
+
   },
 
   watch: {
-    contacts: {
-      handler(newState) {
-        console.log('newState')
-        console.log(newState)
+    // contacts: {
+    //   handler(newState) {
+    //   },
+    //   deep: true,
+    // },
+
+    tempChanges: {
+      handler() {
+        this.validateInputs()
       },
       deep: true,
     }

@@ -128,9 +128,12 @@
 
 
   &._error & {
-    &__icon-t {
-      display: none;
+    &__current {
+      color: var(--c-red);
     }
+    // &__icon-t {
+    //   display: none;
+    // }
   }
 
   ._no-bold {

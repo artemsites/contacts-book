@@ -72,7 +72,6 @@ export default defineComponent({
     },
 
     selectContactType(id) {
-
       this.$emit('updateContactType', id);
 
       this.tempChangedTypeId = id
@@ -81,6 +80,9 @@ export default defineComponent({
     },
 
     isActiveType(id) {
+      if (this.typeId === undefined) {
+        return false
+      }
       if (this.tempChangedTypeId !== null) {
         return id === this.tempChangedTypeId
       }
@@ -98,16 +100,23 @@ export default defineComponent({
     },
 
     isContactTypeSelected() {
-      if (this.tempChangedTypeId !== null) {
+      if (this.typeId === undefined) {
+        return false
+      }
+      else if (this.tempChangedTypeId !== null) {
         return true
       }
       return false
     },
 
     contactTypeName() {
-      if (this.tempChangedTypeId !== null) {
+      if (this.typeId === undefined) {
+        return 'Не выбрано'
+      }
+      else if (this.tempChangedTypeId !== null) {
         return this.contactsTypes.find(type=>type.id===this.tempChangedTypeId).name
       }
+
 
       return 'Не выбрано'
       // return this.type.name

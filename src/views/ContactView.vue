@@ -12,7 +12,7 @@
     </HeaderComponent>
 
     <div class="container">
-        <ContactCard title="Контакт" :contactData="contactData" class="contact__card"/>
+        <ContactCard notificationName="Контакт успешно изменён" title="Контакт" :contactData="contactData" class="contact__card"/>
     </div>
 
   </div>
