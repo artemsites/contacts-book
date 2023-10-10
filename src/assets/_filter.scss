@@ -4,8 +4,6 @@
   max-width: 13.6875rem;
   height: 2rem;
 
-  font-size: 0.875rem;
-
   background: #FFF;
   border-radius: 0.25rem;
   border: 1px solid var(--c-light);
@@ -41,6 +39,7 @@
   &__current {
     width: 100%;
     font-style: normal;
+    font-size: 0.875rem;
     font-weight: 700;
     line-height: 1.25rem;
   }
@@ -109,7 +108,9 @@
 
     &-name {
       width: 100%;
+
       color: var(--c-gray);
+      font-size: 0.875rem;
     }
 
     &:hover {

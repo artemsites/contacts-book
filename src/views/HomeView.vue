@@ -14,7 +14,7 @@
     <div class="contacts__btns-wrapper container">
       <FilterType />
 
-      <BtnAddContact />
+      <BtnAddContact class="contacts__btn-add"/>
     </div>
 
   </div>
@@ -307,6 +307,9 @@ export default defineComponent({
     }
 
 
+  }
+  &__btn-add {
+    margin-left: 1rem;
   }
 }
 </style>
