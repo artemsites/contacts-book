@@ -146,7 +146,7 @@ export default defineComponent({
           empty: 'Поле не может быть пустым',
         },
         tel: {
-          short: 'Телефон не дописан',
+          short: 'Некорректный номер',
           empty: 'Поле не может быть пустым',
         },
         email: {

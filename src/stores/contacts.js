@@ -79,7 +79,7 @@ export const useContactsStore = defineStore('contacts', {
     saveNewContact(newData, callback) {
       let newContact = {...newData};
       let curDate = new Date()
-      newContact.dateCreated = curDate.getDate() + '.' + ((curDate.getMonth())+1) + '.'+ curDate.getFullYear()
+      newContact.dateCreated = curDate.getDate() + '.' + ((curDate.getMonth())+1) + '.'+ String(curDate.getFullYear()).slice(2, 4)
 
       newContact.id = (this.contacts[this.contacts.length-1].id)+1
 

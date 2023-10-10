@@ -24,29 +24,29 @@
 
   <div class="contacts__list container">
     <div class="contacts__item _header">
-      <div class="contacts__item-name _1">КОНТАКТ</div>
+      <div class="contacts__item-name _title _1">КОНТАКТ</div>
 
-      <div class="contacts__item-name _2 _mobile _in-row">
+      <div class="contacts__item-name _title _2 _mobile _in-row">
         <span>ТЕЛЕФОН</span>
         <span>&nbsp;/&nbsp;</span>
         <span>E-MAIL</span>
       </div>
 
-      <div class="contacts__item-name _2 _pc">
+      <div class="contacts__item-name _title _2 _pc">
         ТЕЛЕФОН
       </div>
 
-      <div class="contacts__item-name _2-1 _pc">
+      <div class="contacts__item-name _title _2-1 _pc">
         E-MAIL
       </div>
 
-      <div class="contacts__item-name _3">СОЗДАН</div>
+      <div class="contacts__item-name _title _3">СОЗДАН</div>
     </div>
 
 
     <RouterLink
       class="contacts__item"
-      v-for="contact in filteredContacts"
+      v-for="contact in filteredContactsSortByDateCreated"
       :key="contact.id"
       :to="`/contacts/${contact.id}`"
     >
@@ -96,6 +96,7 @@ export default defineComponent({
     return {
       notificationShow: false,
       notificationName: 'Контакт удалён',
+      filterTypeId: 0,// "ВСЕ" контакты
     }
   },
 
@@ -114,8 +115,13 @@ export default defineComponent({
   computed: {
     ...mapWritableState(useContactsStore, ['contacts']),
 
-    filteredContacts() {
-      return this.contacts.sort((a, b) => {
+    filteredContactsByType() {
+      if (this.filterTypeId===0) return this.contacts
+      return this.contacts.filter(contact=>contact.typeId===this.filterTypeId)
+    },
+
+    filteredContactsSortByDateCreated() {
+      return this.filteredContactsByType.sort((a, b) => {
         if (a.dateCreated > b.dateCreated) return 1
         return -1 
       })
@@ -124,8 +130,7 @@ export default defineComponent({
 
   methods: {
     handlerFilterType(id) {
-      console.log('id')
-      console.log(id)
+      this.filterTypeId = id
     }
   },
 
@@ -311,7 +316,11 @@ export default defineComponent({
           min-width: 7rem;
 
           font-size: 0.75rem;
-
+        }
+        &._title {
+          @media screen and (min-width: 576px) {
+            font-size: 0.625rem;
+          }
         }
       }
     }
