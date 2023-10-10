@@ -45,7 +45,7 @@ export default defineComponent({
 
   data() {
     return {
-      contactData: {},
+      contactData: null,
     }
   },
 

@@ -88,6 +88,11 @@ export default defineComponent({
       }
       return id===this.typeId
     },
+
+    contactTypeNameById(id) {
+      return this.contactsTypes.find(type=>type.id===id).name
+    }
+
   },
 
   emits: ['updateContactType'],
@@ -106,22 +111,30 @@ export default defineComponent({
       else if (this.tempChangedTypeId !== null) {
         return true
       }
+      else if (typeof this.typeId === 'number') {
+        return true
+      }
       return false
     },
 
     contactTypeName() {
+      // console.log('this.typeId')
+      // console.log(this.typeId)
       if (this.typeId === undefined) {
         return 'Не выбрано'
       }
       else if (this.tempChangedTypeId !== null) {
-        return this.contactsTypes.find(type=>type.id===this.tempChangedTypeId).name
+        return this.contactTypeNameById(this.tempChangedTypeId)
       }
-
+      else if (typeof this.typeId === 'number') {
+        return this.contactTypeNameById(this.typeId)
+      }
 
       return 'Не выбрано'
       // return this.type.name
-    }
+    },
 
+   
   },
 
   mounted() {
