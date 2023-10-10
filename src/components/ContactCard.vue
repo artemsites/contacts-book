@@ -9,9 +9,6 @@
 
 
 
-
-
-
       <div class="contact-card__box">
 
 
@@ -50,10 +47,10 @@
 
 
         <!--  
-        error="empty" 
-        placeholder="Не выбрано"
-        :value="contactData.category"
-      -->
+          error="empty" 
+          placeholder="Не выбрано"
+          :value="contactData.category"
+        -->
         <ContactInput label="Категория" error="" class="contact-card__item">
 
           <ContactType
@@ -253,7 +250,7 @@ export default defineComponent({
     },
 
     redirectToContacts() {
-      this.$router.push({name:'home'})
+      this.$router.push({ name:'home',  query: {'contactDeleted': 1} })
     },
 
     changedInputName(name) {

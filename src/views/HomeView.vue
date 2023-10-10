@@ -1,4 +1,9 @@
 <template>
+
+  <ContactNotification :name="notificationName" :show="notificationShow" />
+
+
+
   <HeaderComponent>
     <IconContact class="contacts__icon-contact" />
     КНИГА КОНТАКТОВ
@@ -69,6 +74,7 @@
 
 <script>
 import HeaderComponent from "../components/HeaderComponent.vue";
+import ContactNotification from "../components/ContactNotification.vue";
 import BtnAddContact from "../components/BtnAddContact.vue";
 import FilterType from "../components/FilterType.vue";
 import AvatarContact from "../components/AvatarContact.vue";
@@ -83,12 +89,23 @@ import { useContactsStore } from '../stores/contacts';
 export default defineComponent({
   name: "HomeView",
 
+  data() {
+    return {
+      notificationShow: false,
+      notificationName: 'Контакт удалён',
+    }
+  },
+
   components: {
     HeaderComponent,
     IconContact,
     FilterType,
     BtnAddContact,
     AvatarContact,
+    ContactNotification,
+  },
+
+  props: {
   },
 
   computed: {
@@ -101,6 +118,18 @@ export default defineComponent({
       })
     }
   },
+
+  mounted() {
+    if (this.$route.query.contactDeleted === '1') {
+      this.notificationShow = true
+
+      setTimeout(() => {
+        this.notificationShow = false
+      }, 3000);
+
+      this.$router.replace({ name:'home', query: '' })
+    }
+  }
 })
 </script>
 

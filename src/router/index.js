@@ -8,7 +8,11 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      alias: '/contacts',
+      component: HomeView,
+      // meta: {
+        // contactDeleted: false,
+      // }
     },
     {
       path: '/contacts/:id',
