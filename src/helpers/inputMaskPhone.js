@@ -13,7 +13,6 @@ export function inputMaskPhone(sonoan) {
 
   if (typeof sonoan === "string") {
     phoneInputAll = document.querySelectorAll(sonoan);
-    // console.log(phoneInputAll);
   } else if (typeof sonoan === "object") {
     phoneInputAll[0] = sonoan;
   }

@@ -82,15 +82,9 @@ export default defineComponent({
   emits: ['selectedFilterType'],
 
   mounted() {
-    console.log('this.filterList')
-    console.log(this.filterList)
-
     onClickOutside(this.$refs.elFilter, () => {
       this.closeFilterOpened();
     })
-
-    // console.log('this.$slots')
-    // console.log(this.$slots)
   },
 
 })

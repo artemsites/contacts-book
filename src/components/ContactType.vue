@@ -118,8 +118,6 @@ export default defineComponent({
     },
 
     contactTypeName() {
-      // console.log('this.typeId')
-      // console.log(this.typeId)
       if (this.typeId === undefined) {
         return 'Не выбрано'
       }
