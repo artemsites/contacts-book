@@ -2,12 +2,14 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ContactView from '../views/ContactView.vue'
 import AddContactView from '../views/AddContactView.vue'
+import { PATH_TO_ROOT } from '../config.js';
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: PATH_TO_ROOT+'/',
       name: 'home',
       alias: '/contacts',
       component: HomeView,
@@ -16,17 +18,17 @@ const router = createRouter({
       // }
     },
     {
-      path: '/contacts/:id',
+      path: PATH_TO_ROOT+'/contacts/:id',
       name: 'contact',
       component: ContactView
     },
     {
-      path: '/add-contact',
+      path: PATH_TO_ROOT+'/add-contact',
       name: 'add-contact',
       component: AddContactView
     },
     // {
-    //   path: '/about',
+    //   path: PATH_TO_ROOT+'/about',
     //   name: 'about',
     //   // route level code-splitting
     //   // this generates a separate chunk (About.[hash].js) for this route

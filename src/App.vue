@@ -1,6 +1,4 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router';
-
 import { defineComponent } from 'vue';
 
 import { useContactsStore } from '@/stores/contacts';
@@ -24,9 +22,7 @@ export default defineComponent({
   methods: {
     ...mapActions(useContactsStore, ['saveContactsFromLocalStorageToContactsState'])
   },
-
 })
-
 </script>
 
 <template>

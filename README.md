@@ -1,3 +1,8 @@
+## Смена пути в браузере до корня приложения
+В src/config.js
+
+
+
 # vue-project
 
 This template should help get you started developing with Vue 3 in Vite.

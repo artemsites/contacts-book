@@ -1,0 +1,1 @@
+export const PATH_TO_ROOT = '/demo/lessons/vue/contacts-book';
