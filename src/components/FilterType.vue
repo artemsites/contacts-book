@@ -1,10 +1,8 @@
 <template>
   <div class="filter" ref="elFilter">
     <button class="filter__toggle" aria-label="Открыть фильтр контактов" @click="toggleFilterOpened">
-
       <div class="filter__current _uppercase">{{ filterCurrentName }}</div>
       <IconTriangle class="filter__icon-t" :class="{ '_active': isFilterOpened }" />
-
     </button>
 
     <div class="filter__list" :class="{ '_active': isFilterOpened }">
@@ -14,7 +12,6 @@
         <span class="filter__item-name _uppercase">{{ fItem.name }}</span>
 
         <IconV v-if="fItem.active" class="filter__icon-v" />
-
       </button>
     </div>
   </div>

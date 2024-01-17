@@ -2,8 +2,6 @@
 
   <ContactNotification :name="notificationName" :show="notificationShow" />
 
-
-
   <HeaderComponent>
     <IconContact class="contacts__icon-contact" />
     КНИГА КОНТАКТОВ
@@ -43,12 +41,11 @@
       <div class="contacts__item-name _title _3">СОЗДАН</div>
     </div>
 
-
     <RouterLink
       class="contacts__item"
       v-for="contact in filteredContactsSortByDateCreated"
       :key="contact.id"
-      :to="`/contacts/${contact.id}`"
+      :to="`${PATH_TO_ROOT}/contacts/${contact.id}`"
     >
 
       <div class="contacts__item-name _1">
@@ -84,7 +81,9 @@ import AvatarContact from "../components/AvatarContact.vue";
 import IconContact from "../components/icons/IconContact.vue";
 import { defineComponent } from 'vue';
 
-import { RouterLink } from 'vue-router';
+import {PATH_TO_ROOT} from '../config.js';
+
+// import { RouterLink } from 'vue-router';
 
 import { mapWritableState } from 'pinia';
 import { useContactsStore } from '../stores/contacts';
@@ -94,6 +93,7 @@ export default defineComponent({
 
   data() {
     return {
+      PATH_TO_ROOT,
       notificationShow: false,
       notificationName: 'Контакт удалён',
       filterTypeId: 0,// "ВСЕ" контакты
